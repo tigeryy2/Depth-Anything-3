@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="88dec477-f9f8-4a72-92d5-2c1d12bb51d8" name="165.1.66.95">
+        <fileTransfer rootFolder="/home/ubuntu/apartment-hunter/Depth-Anything-3" accessType="SFTP" host="165.1.66.95" port="22" sshConfigId="bd386a57-927a-4088-9edf-90a01cdb5f31" sshConfig="ubuntu@165.1.66.95:22 agent" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

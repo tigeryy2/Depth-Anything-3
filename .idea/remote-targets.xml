@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="ubuntu@165.1.66.95:22" type="ssh/sftp" uuid="ecbb3f04-d8af-4ddc-907d-c2b55baf2e28">
+        <config>
+          <option name="projectRootOnTarget" value="/home/ubuntu/apartment-hunter/Depth-Anything-3" />
+          <option name="serverName" value="ubuntu@165.1.66.95:22 agent" />
+          <option name="useRsync" value="true" />
+        </config>
+      </target>
+    </targets>
+  </component>
+</project>
