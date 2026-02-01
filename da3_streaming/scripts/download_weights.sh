@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir weights
+mkdir -p weights
 cd ./weights
 
 # SALAD (~ 340 MiB)

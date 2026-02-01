@@ -74,7 +74,7 @@ Run (note: requires sudo):
 
 ```bash
 sudo cog run python -m cog predict \
-  -i video=@./temp/apt_01.mp4 \
+  -i video=@./temp/apt_02.mp4 \
   -i fps=5 \
   -i max_width=640 \
   -i max_frames=300

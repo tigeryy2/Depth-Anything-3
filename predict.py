@@ -26,12 +26,41 @@ class Predictor(BasePredictor):
         if not self.converter.exists():
             raise FileNotFoundError(f"Missing converter: {self.converter}")
 
+        self._ensure_weights()
+
         env = os.environ.copy()
         src_path = repo_root / "src"
         if src_path.exists():
             existing = env.get("PYTHONPATH", "")
             env["PYTHONPATH"] = f"{src_path}:{existing}" if existing else str(src_path)
         self.subprocess_env = env
+
+    def _ensure_weights(self) -> None:
+        weights_dir = self.repo_root / "weights"
+        required = [
+            weights_dir / "config.json",
+            weights_dir / "model.safetensors",
+            weights_dir / "dino_salad.ckpt",
+        ]
+        if all(path.exists() for path in required):
+            return
+
+        script = self.repo_root / "da3_streaming" / "scripts" / "download_weights.sh"
+        if not script.exists():
+            missing = ", ".join(str(path) for path in required if not path.exists())
+            raise FileNotFoundError(
+                f"Missing weights ({missing}) and no download script found at {script}"
+            )
+
+        print("Downloading DA3 streaming weights (one-time setup)...", flush=True)
+        try:
+            subprocess.run(["sh", str(script)], check=True, cwd=self.repo_root)
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError("Failed to download DA3 streaming weights") from exc
+
+        missing = [str(path) for path in required if not path.exists()]
+        if missing:
+            raise FileNotFoundError(f"Weights download incomplete, missing: {', '.join(missing)}")
 
     def predict(
         self,
@@ -87,7 +116,7 @@ class Predictor(BasePredictor):
             "--output_dir",
             str(da3_out),
         ]
-        subprocess.run(da3_cmd, check=True, env=self.subprocess_env)
+        subprocess.run(da3_cmd, check=True, env=self.subprocess_env, cwd=self.repo_root)
 
         convert_cmd = [
             sys.executable,
