@@ -13,15 +13,15 @@ open3d
 fastapi
 uvicorn
 requests
-typer
 pillow
 omegaconf
 evo
 e3nn
-moviepy
 nerfstudio>=1.0.0; sys_platform == 'linux'
 plyfile
 pillow_heif
 safetensors
+typer>=0.9.0
+moviepy==1.0.3
+gsplat==0.1.11; sys_platform == 'linux'
 pycolmap
-gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@v0.1.11 ; sys_platform == 'linux'

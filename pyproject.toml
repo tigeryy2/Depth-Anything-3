@@ -35,10 +35,9 @@ dependencies = [
     "plyfile",
     "pillow_heif",
     "safetensors",
-    "uvicorn",
     "typer>=0.9.0",
     "moviepy==1.0.3",
-    "gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@v0.1.11 ; sys_platform == 'linux'",
+    "gsplat==0.1.11; sys_platform == 'linux'",
     "pycolmap",
 ]
 
