@@ -19,7 +19,9 @@ omegaconf
 evo
 e3nn
 moviepy
+nerfstudio>=1.0.0; sys_platform == 'linux'
 plyfile
 pillow_heif
 safetensors
 pycolmap
+gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@v0.1.11 ; sys_platform == 'linux'

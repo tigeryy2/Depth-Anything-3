@@ -7,7 +7,7 @@ name = "depth-anything-3"
 version = "0.0.0"
 description = "Depth Anything 3"
 readme = "README.md"
-requires-python = ">=3.10, <=3.13"
+requires-python = ">=3.10, <3.11"
 license = { text = "Apache-2.0" }
 authors = [{ name = "Your Name" }]
 
@@ -27,18 +27,18 @@ dependencies = [
     "fastapi",
     "uvicorn",
     "requests",
-    "typer",
     "pillow",
     "omegaconf",
     "evo",
     "e3nn",
-    "moviepy",
+    "nerfstudio>=1.0.0; sys_platform == 'linux'",
     "plyfile",
     "pillow_heif",
     "safetensors",
     "uvicorn",
-    "moviepy==1.0.3",
     "typer>=0.9.0",
+    "moviepy==1.0.3",
+    "gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@v0.1.11 ; sys_platform == 'linux'",
     "pycolmap",
 ]
 
@@ -47,7 +47,6 @@ app = [
     "gradio>=5; python_version >= '3.10'",
     "pillow>=9.0; python_version >= '3.10'",
 ] # requires python>=3.10
-gs = ["gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@0b4dddf04cb687367602c01196913cde6a743d70 ; sys_platform == 'linux'"]
 streaming = [
     "faiss-gpu; sys_platform == 'linux'",
     "faiss-cpu; sys_platform == 'darwin'",
@@ -56,7 +55,7 @@ streaming = [
     "numba",
     "pypose",
 ]
-all = ["depth-anything-3[app,gs,streaming]"]
+all = ["depth-anything-3[app,streaming]"]
 
 
 [project.scripts]
@@ -67,6 +66,11 @@ Homepage = "https://github.com/ByteDance-Seed/Depth-Anything-3"
 
 [tool.uv.extra-build-dependencies]
 gsplat = ["torch"]
+
+[tool.uv]
+environments = [
+  "sys_platform == 'linux' and platform_machine == 'x86_64' and python_full_version < '3.11'",
+]
 
 [tool.hatch.version]
 source = "vcs"
