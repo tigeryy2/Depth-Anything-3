@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import os
 import shutil
 import subprocess
@@ -141,7 +139,7 @@ class Predictor(BasePredictor):
             raise FileNotFoundError(f"No .ply found in {export_dir}")
 
         output_dir = Path(tempfile.mkdtemp(prefix="da3_splat_out_"))
-        output_path = output_dir / "splat.ply"
-        shutil.copy2(ply_files[0], output_path)
+        output_ply = output_dir / "splat.ply"
+        shutil.copy2(ply_files[0], output_ply)
 
-        return CogPath(output_path)
+        return CogPath(output_ply)
