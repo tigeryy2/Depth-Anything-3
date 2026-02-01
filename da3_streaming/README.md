@@ -35,11 +35,22 @@ git submodule update --init --recursive .
 
 #### Step 1: Dependency Installation
 
-Install `Depth-Anything-3` first.
+Install the base DA3 deps plus the streaming extras (recommended: `uv`, from the repo root).
 
 ```cmd
-pip install -r requirements.txt
+uv lock
+uv sync --extra streaming
+uv pip install -e .
 ```
+
+If you prefer pip:
+
+```cmd
+pip install -r requirements.txt -r da3_streaming/requirements.txt
+pip install -e .
+```
+
+On macOS, the streaming extra installs `faiss-cpu`; on Linux it installs `faiss-gpu`.
 
 #### Step 2: Weights Download
 
@@ -76,7 +87,12 @@ You may run the following cmd if you got videos before `python da3_streaming.py`
 
 ```
 mkdir ./extract_images
-ffmpeg -i your_video.mp4 -vf "fps=5,scale=640:-1" ./extract_images/frame_%06d.png
+FFMPEG_BIN=$(python - <<'PY'
+from imageio_ffmpeg import get_ffmpeg_exe
+print(get_ffmpeg_exe())
+PY
+)
+"$FFMPEG_BIN" -i your_video.mp4 -vf "fps=5,scale=640:-1" ./extract_images/frame_%06d.png
 ```
 
 

@@ -13,10 +13,15 @@
 # limitations under the License.
 
 import os
+import shlex
 import cv2
 import imageio
 import numpy as np
 from tqdm.auto import tqdm
+try:
+    from imageio_ffmpeg import get_ffmpeg_exe
+except ImportError:  # optional dependency
+    get_ffmpeg_exe = None
 
 from depth_anything_3.utils.parallel_utils import async_call
 from depth_anything_3.utils.pca_utils import PCARGBVisualizer
@@ -55,8 +60,9 @@ def export_to_feat_vis(
             save_path = os.path.join(out_dir, f"{k}/{idx:06d}.jpg")
             save = np.concatenate([img, feat_vis], axis=1)
             imageio.imwrite(save_path, save, quality=95)
+        ffmpeg_exe = get_ffmpeg_exe() if get_ffmpeg_exe else "ffmpeg"
         cmd = (
-            "ffmpeg -loglevel error -hide_banner -y "
+            f"{shlex.quote(ffmpeg_exe)} -loglevel error -hide_banner -y "
             f"-framerate {fps} -start_number 0 "
             f"-i {out_dir}/{k}/%06d.jpg "
             f"-c:v libx264 -pix_fmt yuv420p "

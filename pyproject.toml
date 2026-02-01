@@ -7,7 +7,7 @@ name = "depth-anything-3"
 version = "0.0.0"
 description = "Depth Anything 3"
 readme = "README.md"
-requires-python = ">=3.9, <=3.13"
+requires-python = ">=3.10, <=3.13"
 license = { text = "Apache-2.0" }
 authors = [{ name = "Your Name" }]
 
@@ -19,6 +19,7 @@ dependencies = [
     "einops",
     "huggingface_hub",
     "imageio",
+    "imageio-ffmpeg",
     "numpy<2",
     "opencv-python",
     "xformers",
@@ -42,9 +43,20 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-app = ["gradio>=5", "pillow>=9.0"] # requires that python3>=3.10
-gs = ["gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@0b4dddf04cb687367602c01196913cde6a743d70"]
-all = ["depth-anything-3[app,gs]"]
+app = [
+    "gradio>=5; python_version >= '3.10'",
+    "pillow>=9.0; python_version >= '3.10'",
+] # requires python>=3.10
+gs = ["gsplat @ git+https://github.com/nerfstudio-project/gsplat.git@0b4dddf04cb687367602c01196913cde6a743d70 ; sys_platform == 'linux'"]
+streaming = [
+    "faiss-gpu; sys_platform == 'linux'",
+    "faiss-cpu; sys_platform == 'darwin'",
+    "pandas",
+    "prettytable",
+    "numba",
+    "pypose",
+]
+all = ["depth-anything-3[app,gs,streaming]"]
 
 
 [project.scripts]
@@ -52,6 +64,9 @@ da3 = "depth_anything_3.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/ByteDance-Seed/Depth-Anything-3"
+
+[tool.uv.extra-build-dependencies]
+gsplat = ["torch"]
 
 [tool.hatch.version]
 source = "vcs"

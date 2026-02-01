@@ -5,6 +5,7 @@ torchvision
 einops
 huggingface_hub
 imageio
+imageio-ffmpeg
 numpy<2
 opencv-python
 xformers
